@@ -2,10 +2,8 @@ package jezz.forestfiresimulation.display.awt;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.Label;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.Scanner;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,7 +15,8 @@ import jezz.forestfiresimulation.engine.Engine;
 import jezz.forestfiresimulation.engine.FireState;
 
 /**
- *
+ * Affichage de la simulation dans une fenêtre avec des boutons de contrôle
+ * 
  * @author jezz
  */
 public class AwtDisplay extends Display {
@@ -35,8 +34,7 @@ public class AwtDisplay extends Display {
     }
     
     JFrame frame;
-    JPanel panelForest;
-    JLabel[][] labels;
+    JLabel[][] cellLabels;
     JLabel timeLabel;
     JLabel nbBurntLabel;
     JLabel nbFireLabel;
@@ -49,16 +47,16 @@ public class AwtDisplay extends Display {
         
         //========================
         
-        panelForest = new JPanel();
+        JPanel panelForest = new JPanel();
         panelForest.setLayout(new GridLayout(engine.getForest().height, engine.getForest().width));
         
-        labels = new JLabel[engine.getForest().height][engine.getForest().width];
+        cellLabels = new JLabel[engine.getForest().height][engine.getForest().width];
         Cell[][] cells = engine.getForest().getCells();
         for (int y=0; y<cells.length; y++){
             for (int x=0; x<cells[y].length; x++){
-                JLabel l = new JLabel("_");
+                JLabel l = new JLabel("");
                 l.setHorizontalAlignment(JLabel.CENTER);
-                labels[y][x] = l;
+                cellLabels[y][x] = l;
                 panelForest.add(l);
             }
         }
@@ -113,8 +111,8 @@ public class AwtDisplay extends Display {
         
         //========================
         
-        frame.setSize(300, 300);
         frame.pack();
+        frame.setSize(400, 300);
         frame.setVisible(true);
         
         
@@ -131,9 +129,9 @@ public class AwtDisplay extends Display {
     @Override
     public void displayForest() {
         Cell[][] cells = engine.getForest().getCells();
-        for (int y=0; y<labels.length; y++){
-            for (int x=0; x<labels[y].length; x++){
-                labels[y][x].setText(fireStateSymbol.get(cells[y][x].getFireState()));
+        for (int y=0; y<cellLabels.length; y++){
+            for (int x=0; x<cellLabels[y].length; x++){
+                cellLabels[y][x].setText(fireStateSymbol.get(cells[y][x].getFireState()));
             }
         }
     }
