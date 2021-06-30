@@ -9,12 +9,13 @@ import jezz.forestfiresimulation.engine.Engine;
  */
 public abstract class Display {
 	
-	Engine engine;
+	protected Engine engine;
 
 	public Display(Engine engine) {
 		this.engine = engine;
 	}
 	
+	abstract public void run(String[] args);
 	abstract public void displayStates();
 	abstract public void displayForest();
 	

@@ -6,6 +6,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jezz.forestfiresimulation.conf.Conf;
 import jezz.forestfiresimulation.conf.ConfFactory;
+import jezz.forestfiresimulation.display.Display;
+import jezz.forestfiresimulation.display.awt.AwtDisplay;
+import jezz.forestfiresimulation.display.console.ConsoleDisplay;
+import jezz.forestfiresimulation.engine.Engine;
 
 /**
  * Main class 
@@ -15,7 +19,7 @@ import jezz.forestfiresimulation.conf.ConfFactory;
  * @author jezz
  */
 public class ForestFireSimulation {
-       
+    
     /**
      * @param args the command line arguments
      */
@@ -29,18 +33,27 @@ public class ForestFireSimulation {
                 conf = ConfFactory.getSampleConf();
             }
             
-            ConsoleForestFireSimulation sim = new ConsoleForestFireSimulation(conf);
-            if ( args.length>0 && "step".equals(args[0]) ){
-                sim.runByStep();
-            }
-            else {
-                sim.runFull();
-            }
+            
+            Engine engine = new Engine(conf);
+            Display display;
+            
+            boolean console = false;
+            for (String arg : args) 
+                if ("console".equals(arg)) 
+                    console = true;
+
+            if (console)
+                display = new ConsoleDisplay(engine);
+            else 
+                display = new AwtDisplay(engine);
+
+            display.run(args);
+            
         }
         catch (IOException ex) {
             Logger.getLogger(ForestFireSimulation.class.getName()).log(Level.SEVERE, null, ex);
         }
-		  
+
     }
 
 }

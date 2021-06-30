@@ -26,18 +26,28 @@ public class Engine {
     
 	Random randomGen;
 	
-    int time = 0;
+    int time;
 	
 	public Engine(Conf conf) {
-		this.forest = new Forest(conf.getWidth(),conf.getHeight(), conf.getFirePositions());
+        this.conf = conf;
+		init();
+	}
+    
+    public void reset(){
+        init();
+    }
+    
+    private void init(){
+        this.time = 0;
+        this.forest = new Forest(conf.getWidth(),conf.getHeight(), conf.getFirePositions());
 		this.probaFire = conf.getProba();
         this.simulationRandomSeed = conf.getRandomSeed();
         if (this.simulationRandomSeed == 0){
             this.simulationRandomSeed = System.currentTimeMillis();
         }
 		this.randomGen = new Random(simulationRandomSeed);
-	}
-
+    }
+    
 	public Forest getForest() {
 		return forest;
 	}

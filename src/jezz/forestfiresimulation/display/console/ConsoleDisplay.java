@@ -1,8 +1,10 @@
-package jezz.forestfiresimulation.display;
+package jezz.forestfiresimulation.display.console;
 
 import java.io.PrintStream;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Scanner;
+import jezz.forestfiresimulation.display.Display;
 import jezz.forestfiresimulation.engine.Cell;
 import jezz.forestfiresimulation.engine.Engine;
 import jezz.forestfiresimulation.engine.FireState;
@@ -47,6 +49,40 @@ public class ConsoleDisplay extends Display {
 		}
 	}
 	
-	
+    @Override
+    public void run(String[] args){
+        boolean step = false;
+        for (String arg : args) 
+            if ("step".equals(arg)) 
+                step = true;
+
+        if ( step ){
+            runByStep();
+        }
+        else {
+            runFull();
+        }
+    }
+    
+	void runByStep(){
+        displayStates();
+		displayForest();
+        try (Scanner sc = new Scanner(System.in)) {
+            boolean end = false;
+            while (!end && sc.nextLine() != null){
+                end = engine.step();
+                displayStates();
+                displayForest();
+            }
+        }
+    }
+    
+    void runFull(){
+        displayStates();
+		displayForest();
+		engine.stepToEnd();
+		displayStates();
+		displayForest();
+    }
 	
 }
