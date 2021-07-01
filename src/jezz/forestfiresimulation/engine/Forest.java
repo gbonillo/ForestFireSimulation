@@ -8,7 +8,6 @@ import java.util.List;
  * Représentaiton de la forêt
  * Contient la grille de cellule de la forêt 2D, 
  * ainsi que les listes des cellules en feu et brulées.
- * 
  *  
  * @author jezz
  */

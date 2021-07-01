@@ -31,10 +31,10 @@ public class ConsoleDisplay extends Display {
 	@Override
 	public void displayStates() {
 		PrintStream ps = System.out;
-		ps.println("ConsoleDisplay states :");
-		ps.println("  time : " + engine.getTime());
-		ps.println("  nb cell burnt : " + engine.getForest().getBurntCellsCount());
-		ps.println("  nb cell on fire : " + engine.getForest().getOnFireCellsCount());
+		ps.println("Forest Fire Simulation [ConsoleDisplay] :");
+		ps.println("  temps : " + engine.getTime());
+		ps.println("  nb cellules brûlées : " + engine.getForest().getBurntCellsCount());
+		ps.println("  nb cellules en feu  : " + engine.getForest().getOnFireCellsCount());
 	}
 
 	@Override

@@ -1,8 +1,11 @@
 package jezz.forestfiresimulation.display.awt;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Label;
 import java.util.EnumMap;
 import java.util.Map;
 import javax.swing.BoxLayout;
@@ -45,9 +48,12 @@ public class AwtDisplay extends Display {
     JLabel nbFireLabel;
     
     void init() {
+        Font  fontForest  = new Font(Font.SANS_SERIF,  Font.PLAIN, 20);
+        Font  fontText    = new Font(Font.SANS_SERIF,  Font.PLAIN, 16);
+        
         frame = new JFrame();
+        frame.setTitle("Forest Fire Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //frame.setLayout(new GridLayout(2, 1, 0, 10));
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
         
         //========================
@@ -61,8 +67,8 @@ public class AwtDisplay extends Display {
             for (int x=0; x<cells[y].length; x++){
                 JLabel l = new JLabel("");
                 l.setHorizontalAlignment(JLabel.CENTER);
+                l.setFont(fontForest);
                 cellLabels[y][x] = l;
-                //cellLabels[y][x].setForeground(Color.green);
                 panelForest.add(l);
             }
         }
@@ -72,19 +78,24 @@ public class AwtDisplay extends Display {
         //========================
         
         JPanel panelState = new JPanel();
-        panelState.setLayout(new FlowLayout());
         
-        panelState.add(new JLabel("time:"));
-        timeLabel = new JLabel("");
+        panelState.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+
+        panelState.add(new JLabel("temps:", Label.RIGHT));
+        timeLabel = new JLabel("", Label.LEFT);
         panelState.add(timeLabel);
         
-        panelState.add(new JLabel("nb burnt:"));
-        nbBurntLabel = new JLabel("");
+        panelState.add(new JLabel("nb brûlées:", Label.RIGHT));
+        nbBurntLabel = new JLabel("", Label.LEFT);
         panelState.add(nbBurntLabel);
         
-        panelState.add(new JLabel("nb fire:"));
-        nbFireLabel = new JLabel("");
+        panelState.add(new JLabel("nb en feu:", Label.RIGHT));
+        nbFireLabel = new JLabel("", Label.LEFT);
         panelState.add(nbFireLabel);
+        
+        for (Component c : panelState.getComponents()) {
+            c.setFont(fontText);
+        }
         
         frame.add(panelState);
         
@@ -112,12 +123,17 @@ public class AwtDisplay extends Display {
             runToEnd();
         });
         panelButton.add(fullButton);
+        
+        for (Component c : panelButton.getComponents()) {
+            c.setFont(fontText);
+        }
+        
         frame.add(panelButton);
         
         //========================
         
         frame.pack();
-        frame.setSize(400, 300);
+        frame.setSize(600, 400);
         frame.setVisible(true);
         
         

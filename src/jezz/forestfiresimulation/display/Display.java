@@ -17,7 +17,6 @@ public abstract class Display {
 	
 	abstract public void run(String[] args);
     
-    
     protected boolean runOneStep(){
         boolean end = engine.step();
         displayStates();

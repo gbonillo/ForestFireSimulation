@@ -5,7 +5,9 @@ import java.util.List;
 import jezz.forestfiresimulation.engine.Position;
 
 /**
- *
+ * Classe abstraite implémentant l'interface des données de configuration
+ * avec des champs standard pour stocker les infos.
+ * 
  * @author jezz
  */
 public abstract class DefaultConf implements Conf{
