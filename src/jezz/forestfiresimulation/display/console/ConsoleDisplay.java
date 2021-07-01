@@ -8,6 +8,7 @@ import jezz.forestfiresimulation.display.Display;
 import jezz.forestfiresimulation.engine.Cell;
 import jezz.forestfiresimulation.engine.Engine;
 import jezz.forestfiresimulation.engine.FireState;
+import jezz.forestfiresimulation.utils.Utils;
 
 /**
  * Affichage de la simulation dans la console (System.out)
@@ -51,38 +52,23 @@ public class ConsoleDisplay extends Display {
 	
     @Override
     public void run(String[] args){
-        boolean step = false;
-        for (String arg : args) 
-            if ("step".equals(arg)) 
-                step = true;
-
-        if ( step ){
+        displayStates();
+		displayForest();
+        if ( Utils.contains(args, "step") ){
             runByStep();
         }
         else {
-            runFull();
+            runToEnd();
         }
     }
     
 	void runByStep(){
-        displayStates();
-		displayForest();
         try (Scanner sc = new Scanner(System.in)) {
             boolean end = false;
             while (!end && sc.nextLine() != null){
-                end = engine.step();
-                displayStates();
-                displayForest();
+                end = runOneStep();
             }
         }
-    }
-    
-    void runFull(){
-        displayStates();
-		displayForest();
-		engine.stepToEnd();
-		displayStates();
-		displayForest();
     }
 	
 }

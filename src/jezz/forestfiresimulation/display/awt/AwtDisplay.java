@@ -1,5 +1,6 @@
 package jezz.forestfiresimulation.display.awt;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.EnumMap;
@@ -22,10 +23,14 @@ import jezz.forestfiresimulation.engine.FireState;
 public class AwtDisplay extends Display {
     
     private Map<FireState, String> fireStateSymbol = new EnumMap<FireState,String>(FireState.class);
+    private Map<FireState, Color> fireStateColor = new EnumMap<FireState,Color>(FireState.class);
 	{
-		fireStateSymbol.put(FireState.NO_FIRE, "_");
-		fireStateSymbol.put(FireState.ON_FIRE, "#");
+		fireStateSymbol.put(FireState.NO_FIRE, "🌲");
+        fireStateColor.put(FireState.NO_FIRE, new Color(0, 127, 95)); // 55a630
+		fireStateSymbol.put(FireState.ON_FIRE, "🔥");
+        fireStateColor.put(FireState.ON_FIRE, new Color(249, 65, 68)); // F94144
 		fireStateSymbol.put(FireState.BURNT,   ".");
+        fireStateColor.put(FireState.BURNT, Color.gray);
 	}
     
     public AwtDisplay(Engine engine) {
@@ -57,6 +62,7 @@ public class AwtDisplay extends Display {
                 JLabel l = new JLabel("");
                 l.setHorizontalAlignment(JLabel.CENTER);
                 cellLabels[y][x] = l;
+                //cellLabels[y][x].setForeground(Color.green);
                 panelForest.add(l);
             }
         }
@@ -85,7 +91,6 @@ public class AwtDisplay extends Display {
         //========================
         
         JPanel panelButton = new JPanel();
-        //panelButton.setLayout(new GridLayout(1, 2, 10, 0));
         panelButton.setLayout(new FlowLayout());
         
         JButton resetButton = new JButton("reset");
@@ -104,7 +109,7 @@ public class AwtDisplay extends Display {
         
         JButton fullButton = new JButton("end");
         fullButton.addActionListener(e -> {
-            runFull();
+            runToEnd();
         });
         panelButton.add(fullButton);
         frame.add(panelButton);
@@ -131,7 +136,9 @@ public class AwtDisplay extends Display {
         Cell[][] cells = engine.getForest().getCells();
         for (int y=0; y<cellLabels.length; y++){
             for (int x=0; x<cellLabels[y].length; x++){
-                cellLabels[y][x].setText(fireStateSymbol.get(cells[y][x].getFireState()));
+                FireState s = cells[y][x].getFireState();
+                cellLabels[y][x].setText(fireStateSymbol.get(s));
+                cellLabels[y][x].setForeground(fireStateColor.get(s));
             }
         }
     }
@@ -141,20 +148,6 @@ public class AwtDisplay extends Display {
         // display initial state
         displayStates();
         displayForest();
-    }
-    
-    public void runOneStep(){
-        engine.step();
-        displayStates();
-        displayForest();
-    }
-    
-    public void runFull(){
-        displayStates();
-		displayForest();
-		engine.stepToEnd();
-		displayStates();
-		displayForest();
     }
     
 }

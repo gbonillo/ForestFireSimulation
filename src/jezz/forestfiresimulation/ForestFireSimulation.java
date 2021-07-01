@@ -10,6 +10,7 @@ import jezz.forestfiresimulation.display.Display;
 import jezz.forestfiresimulation.display.awt.AwtDisplay;
 import jezz.forestfiresimulation.display.console.ConsoleDisplay;
 import jezz.forestfiresimulation.engine.Engine;
+import jezz.forestfiresimulation.utils.Utils;
 
 /**
  * Main class 
@@ -24,25 +25,18 @@ public class ForestFireSimulation {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Logger.getLogger(ForestFireSimulation.class.getName()).log(Level.INFO, "args={0}", Arrays.toString(args));
+        Logger.getLogger(ForestFireSimulation.class.getName()).log(Level.FINE, "args={0}", Arrays.toString(args));
         try {
-            
             Conf conf = ConfFactory.loadConf();
             if (conf == null){
-                Logger.getLogger(ForestFireSimulation.class.getName()).log(Level.INFO, "Fichier de conf introuvable! => Chargement d'une conf de test!");
+                Logger.getLogger(ForestFireSimulation.class.getName()).log(Level.WARNING, "Fichier de conf introuvable! => Chargement d'une conf de test!");
                 conf = ConfFactory.getSampleConf();
             }
-            
-            
-            Engine engine = new Engine(conf);
-            Display display;
-            
-            boolean console = false;
-            for (String arg : args) 
-                if ("console".equals(arg)) 
-                    console = true;
 
-            if (console)
+            Engine engine = new Engine(conf);
+            
+            Display display;
+            if (Utils.contains(args, "console"))
                 display = new ConsoleDisplay(engine);
             else 
                 display = new AwtDisplay(engine);

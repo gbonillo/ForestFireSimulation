@@ -16,6 +16,21 @@ public abstract class Display {
 	}
 	
 	abstract public void run(String[] args);
+    
+    
+    protected boolean runOneStep(){
+        boolean end = engine.step();
+        displayStates();
+        displayForest();
+        return end;
+    }
+    
+    protected void runToEnd(){
+        engine.stepToEnd();
+		displayStates();
+		displayForest();
+    }
+    
 	abstract public void displayStates();
 	abstract public void displayForest();
 	
