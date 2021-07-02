@@ -13,14 +13,13 @@ import jezz.forestfiresimulation.engine.Engine;
 import jezz.forestfiresimulation.utils.Utils;
 
 /**
- * Main class 
- * Gère les paramètres et l'instanciation de la Conf 
- * et de la Classe principale à exécuter.
- * 
+ * Main class Gère les paramètres et l'instanciation de la Conf et de la Classe
+ * principale à exécuter.
+ *
  * @author jezz
  */
 public class ForestFireSimulation {
-    
+
     /**
      * @param args the command line arguments
      */
@@ -28,21 +27,21 @@ public class ForestFireSimulation {
         Logger.getLogger(ForestFireSimulation.class.getName()).log(Level.FINE, "args={0}", Arrays.toString(args));
         try {
             Conf conf = ConfFactory.loadConf();
-            if (conf == null){
+            if (conf == null) {
                 Logger.getLogger(ForestFireSimulation.class.getName()).log(Level.WARNING, "Fichier de conf introuvable! => Chargement d'une conf de test!");
                 conf = ConfFactory.getSampleConf();
             }
 
             Engine engine = new Engine(conf);
-            
+
             Display display;
             if (Utils.contains(args, "console"))
                 display = new ConsoleDisplay(engine);
-            else 
+            else
                 display = new AwtDisplay(engine);
 
             display.run(args);
-            
+
         }
         catch (IOException ex) {
             Logger.getLogger(ForestFireSimulation.class.getName()).log(Level.SEVERE, null, ex);
